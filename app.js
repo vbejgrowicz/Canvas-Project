@@ -26,23 +26,39 @@ class Circle {
     this.y += this.dy;
     this.draw();
   }
+  updateRadius() {
+  this.radius +=1;
+  this.draw();
+  }
 }
 
 let allCircles = [];
+let growingCircle = [];
+let holding = false;
 
-const moveCircles = () => {
-  requestAnimationFrame(moveCircles);
+const updateCircles = () => {
+  requestAnimationFrame(updateCircles);
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   for (let i = 0; i < allCircles.length; i += 1){
     allCircles[i].updatePosition();
   }
+  if (holding) {
+    growingCircle[0].updateRadius();
+  }
 }
 
-moveCircles();
+updateCircles();
 
 canvas.addEventListener('mousedown', (clickEvent) => {
+  holding = true;
   const startX = clickEvent.x;
   const startY = clickEvent.y;
-  const radius = 20;
-  allCircles.push(new Circle(startX, startY, radius));
+  const radius = 1;
+  growingCircle.push(new Circle(startX, startY, radius));
+});
+
+canvas.addEventListener('mouseup', (e) => {
+  holding = false;
+  allCircles.push(growingCircle[0]);
+  growingCircle.pop();
 });
