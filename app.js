@@ -5,8 +5,8 @@ class Circle {
   constructor(x, y, radius) {
     this.x = x;
     this.y = y;
-    // this.dx = (Math.random() - 0.5) * 10;
-    // this.dy = (Math.random() - 0.5) * 10;
+    this.dx = (Math.random() - 0.5) * 10;
+    this.dy = (Math.random() - 0.5) * 10;
     this.radius = radius;
   }
   draw() {
@@ -15,19 +15,30 @@ class Circle {
     ctx.strokeStyle = 'purple';
     ctx.stroke();
   }
+  updatePosition() {
+    if (this.x > canvas.width - this.radius || this.x - this.radius < 0) {
+      this.dx = -this.dx;
+    }
+    if (this.y > canvas.height - this.radius || this.y - this.radius < 0) {
+      this.dy = -this.dy;
+    }
+    this.x += this.dx;
+    this.y += this.dy;
+    this.draw();
+  }
 }
 
 let allCircles = [];
 
-const createCircle = () => {
-  requestAnimationFrame(createCircle);
+const moveCircles = () => {
+  requestAnimationFrame(moveCircles);
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   for (let i = 0; i < allCircles.length; i += 1){
-    allCircles[i].draw();
+    allCircles[i].updatePosition();
   }
 }
 
-createCircle();
+moveCircles();
 
 canvas.addEventListener('mousedown', (clickEvent) => {
   const startX = clickEvent.x;
