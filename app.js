@@ -112,9 +112,9 @@ updateCircles();
 
 canvas.addEventListener('mousedown', (clickEvent) => {
   holding = true;
-  const startX = clickEvent.x;
-  const startY = clickEvent.y;
   const radius = 1;
+  const startX = clickEvent.offsetX;
+  const startY = clickEvent.offsetY;
   growingCircle.push(new Circle(startX, startY, radius));
 });
 
