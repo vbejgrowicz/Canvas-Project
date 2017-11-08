@@ -27,7 +27,9 @@ class Circle {
     this.draw();
   }
   updateRadius() {
-  this.radius +=1;
+    if (this.radius <= 50) {
+      this.radius += 1;
+    }
   this.draw();
   }
 }
