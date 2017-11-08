@@ -7,6 +7,22 @@ const getDistance = (x1, y1, x2, y2) => {
   return Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
 }
 
+const checkBoundary = (ball) => {
+  let boundary = null;
+  let x = ball.x;
+  let y = ball.y;
+  let radius = ball.radius;
+  let xBoundary = canvas.width;
+  let yBoundary = canvas.height;
+  if ((x >= xBoundary - radius) || (x - radius <= 0)) {
+    boundary = 'X-Limit';
+  }
+  if (y >= yBoundary - radius || y - radius <= 0) {
+    boundary = 'Y-Limit';
+  }
+  return boundary;
+}
+
 const rotate = (ball, angle) => {
     const rotatedVelocities = {
         dx: ball.dx * Math.cos(angle) - ball.dy * Math.sin(angle),
@@ -75,21 +91,27 @@ class Circle {
         resolveCollision(this, allCircles[i]);
       }
     }
-    if (this.x > canvas.width - this.radius || this.x - this.radius < 0) {
-      this.dx = -this.dx;
+    const limit = checkBoundary(this);
+    if (limit === 'X-Limit' && this.x < 50) {
+      this.dx = Math.abs(this.dx);
+    } else if (limit === 'X-Limit') {
+      this.dx = -Math.abs(this.dx);
     }
-    if (this.y > canvas.height - this.radius || this.y - this.radius < 0) {
-      this.dy = -this.dy;
+    if (limit === 'Y-Limit' && this.y < 50) {
+      this.dy = Math.abs(this.dy);
+    } else if (limit === 'Y-Limit') {
+      this.dy = -Math.abs(this.dy);
     }
     this.x += this.dx;
     this.y += this.dy;
     this.draw();
   }
   updateRadius() {
-    if (this.radius <= 50) {
+    const limit = checkBoundary(this);
+    if (this.radius <= 50 && !(limit === 'X-Limit' || limit === 'Y-Limit')) {
       this.radius += 1;
     }
-  this.draw();
+    this.draw();
   }
 }
 
