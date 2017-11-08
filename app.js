@@ -1,6 +1,12 @@
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
+const getDistance = (x1, y1, x2, y2) => {
+  let xDistance = x2 - x1;
+  let yDistance = y2 - y1;
+  return Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
+}
+
 class Circle {
   constructor(x, y, radius) {
     this.x = x;
@@ -15,7 +21,12 @@ class Circle {
     ctx.strokeStyle = 'purple';
     ctx.stroke();
   }
-  updatePosition() {
+  updatePosition(allCircles) {
+    for (let i = 0; i < allCircles.length; i += 1) {
+      if (this === allCircles[i]) continue;
+      if ((getDistance(this.x, this.y, allCircles[i].x, allCircles[i].y) - this.radius - allCircles[i].radius) < 0) {
+      }
+    }
     if (this.x > canvas.width - this.radius || this.x - this.radius < 0) {
       this.dx = -this.dx;
     }
@@ -42,7 +53,7 @@ const updateCircles = () => {
   requestAnimationFrame(updateCircles);
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   for (let i = 0; i < allCircles.length; i += 1){
-    allCircles[i].updatePosition();
+    allCircles[i].updatePosition(allCircles);
   }
   if (holding) {
     growingCircle[0].updateRadius();
