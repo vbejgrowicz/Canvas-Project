@@ -54,3 +54,5 @@ const Collision = {
       }
   }
 }
+
+export default Collision;

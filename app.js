@@ -1,3 +1,7 @@
+import './style.css';
+import Ball from './Ball';
+import Materials from './Materials'
+
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
@@ -30,10 +34,10 @@ const App = (() => {
     requestAnimationFrame(updateCanvas);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     balls.forEach((ball) => {
-      ball.move(balls);
+      ball.move(ctx, balls);
     });
     if (isHolding) {
-      currentBall[0].increaseSize();
+      currentBall[0].increaseSize(ctx);
     }
   }
 

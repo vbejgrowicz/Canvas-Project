@@ -21,3 +21,5 @@ const Boundary = {
     }
   },
 }
+
+export default Boundary;
