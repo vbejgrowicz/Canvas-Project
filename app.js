@@ -4,11 +4,13 @@ import Materials from './Materials'
 
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
+const typeInput = document.getElementById('Material-Selector');
 
 const App = (() => {
   let isHolding = false;
   let balls = [];
   let currentBall = [];
+  let typeList = Object.keys(Materials);
 
   const startBall = (clickEvent) => {
     isHolding = true;
@@ -40,11 +42,18 @@ const App = (() => {
       currentBall[0].increaseSize(ctx);
     }
   }
-
+  const setMaterialList = () => {
+    typeList.forEach((material) => {
+      const option = document.createElement("option");
+      option.text = material;
+      typeInput.add(option);
+    });
+  }
   return {
     init() {
       setupEventListeners();
       updateCanvas();
+      setMaterialList();
     },
   };
 })();
