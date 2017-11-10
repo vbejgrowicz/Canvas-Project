@@ -1,4 +1,4 @@
-import './style.css';
+import '../style/style.css';
 import Ball from './Ball';
 import Materials from './Materials'
 

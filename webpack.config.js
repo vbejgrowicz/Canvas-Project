@@ -6,7 +6,7 @@ const extractCSS = new ExtractTextPlugin('[name].[chunkhash].css');
 
 const config = {
   entry: {
-    bundle: './app.js',
+    bundle: './src/app.js',
   },
   output: {
     filename: '[name].[chunkhash].js',
