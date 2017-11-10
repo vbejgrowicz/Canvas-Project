@@ -17,7 +17,8 @@ const App = (() => {
     const radius = 10;
     const startX = clickEvent.offsetX;
     const startY = clickEvent.offsetY;
-    currentBall.push(new Ball(startX, startY, radius));
+    const selected = typeInput.options.selectedIndex;
+    currentBall.push(new Ball(typeList[selected], startX, startY, radius));
   }
 
   const finishBall = (unclickEvent) => {
