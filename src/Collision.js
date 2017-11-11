@@ -11,6 +11,18 @@ const Collision = {
     let yDistance = ballTwo.y - ballOne.y;
     return Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
   },
+  normalizeVelocity(velocity){
+    if (velocity === 0) {
+      velocity = Math.random() * .5;
+    }
+    while (Math.abs(velocity) > 10) {
+      velocity = (velocity / Math.abs(velocity)) % 10
+      if (velocity === 0) {
+        velocity = 10;
+      }
+    }
+    return velocity;
+  },
   resolveCollision(ballOne, ballTwo) {
     const vx1i = ballOne.dx;
     const vx2i = ballTwo.dx;
@@ -53,11 +65,12 @@ const Collision = {
     let vy2f = this.roundtoTwoDec(vy2fAns.numer / vy2fAns.denom);
 
     //Plug vx2f back into first Equation
-    ballOne.dx = Math.abs(vx1f) > 10 ? ((vx1f / Math.abs(vx1f)) * 10) : vx1f;
-    ballOne.dy = Math.abs(vy1f) > 10 ? ((vy1f / Math.abs(vy1f)) * 10) : vy1f;
-    ballTwo.dx = Math.abs(vx2f) > 10 ? ((vx2f / Math.abs(vx2f)) * 10) : vx2f;
-    ballTwo.dy = Math.abs(vy2f) > 10 ? ((vy2f / Math.abs(vy2f)) * 10) : vy2f;
     let vy1f = this.roundtoTwoDec(vy2i + vy2f - vy1i);
+
+    vx1f = this.normalizeVelocity(vx1f);
+    vy1f = this.normalizeVelocity(vy1f);
+    vx2f = this.normalizeVelocity(vx2f);
+    vy2f = this.normalizeVelocity(vy2f);
 
     //check for same direction
     if ((vx1f < 0 && vx2f < 0) || (vx1f > 0 && vx2f > 0) ) {
@@ -74,6 +87,12 @@ const Collision = {
         vy2f = -vy2f;
       }
     }
+
+    ballOne.dx = vx1f;
+    ballOne.dy = vy1f;
+    ballTwo.dx = vx2f;
+    ballTwo.dy = vy2f;
+
   },
   checkCollision(ballOne, ballTwo, currentCollisions) {
       if ((this.getDistance(ballOne, ballTwo) - ballOne.radius - ballTwo.radius) < 0) {
