@@ -59,6 +59,21 @@ const Collision = {
     ballTwo.dy = Math.abs(vy2f) > 10 ? ((vy2f / Math.abs(vy2f)) * 10) : vy2f;
     let vy1f = this.roundtoTwoDec(vy2i + vy2f - vy1i);
 
+    //check for same direction
+    if ((vx1f < 0 && vx2f < 0) || (vx1f > 0 && vx2f > 0) ) {
+      if (ballOne.mass > ballTwo.mass) {
+        vx1f = -vx1f;
+      } else {
+        vx2f = -vx2f;
+      }
+    }
+    if ((vy1f < 0 && vy2f < 0) || (vy1f > 0 && vy2f > 0) ) {
+      if (ballOne.mass > ballTwo.mass) {
+        vy1f = -vy1f;
+      } else {
+        vy2f = -vy2f;
+      }
+    }
   },
   checkCollision(ballOne, ballTwo, currentCollisions) {
       if ((this.getDistance(ballOne, ballTwo) - ballOne.radius - ballTwo.radius) < 0) {
