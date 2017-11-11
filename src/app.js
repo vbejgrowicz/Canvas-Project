@@ -7,9 +7,11 @@ const ctx = canvas.getContext('2d');
 const typeInput = document.getElementById('Material-Selector');
 
 const App = (() => {
+  let id = 0;
   let isHolding = false;
   let balls = [];
   let currentBall = [];
+  let currentCollisions = [];
   let typeList = Object.keys(Materials);
 
   const startBall = (clickEvent) => {
@@ -18,11 +20,12 @@ const App = (() => {
     const startX = clickEvent.offsetX;
     const startY = clickEvent.offsetY;
     const selected = typeInput.options.selectedIndex;
-    currentBall.push(new Ball(typeList[selected], startX, startY, radius));
+    currentBall.push(new Ball(id, typeList[selected], startX, startY, radius));
   }
 
   const finishBall = (unclickEvent) => {
     isHolding = false;
+    id += 1;
     balls.push(currentBall[0]);
     currentBall.pop();
     console.log(balls);
@@ -36,8 +39,12 @@ const App = (() => {
   const updateCanvas = () => {
     requestAnimationFrame(updateCanvas);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    currentCollisions = currentCollisions.filter(collided => (collided.isCollided()));
+    // if (currentCollisions.length >= 1 ){
+    //   debugger;
+    // };
     balls.forEach((ball) => {
-      ball.move(ctx, balls);
+      ball.move(ctx, balls, currentCollisions);
     });
     if (isHolding) {
       currentBall[0].increaseSize(ctx);
