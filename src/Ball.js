@@ -13,8 +13,8 @@ class Ball {
     this.mass;
     this.volume;
     this.color = Materials[type].color;
-    this.dx = Math.floor(Math.random() * 10);
-    this.dy = Math.floor(Math.random() * 10);
+    this.dx = Math.floor(Math.random() * 5) + 3;
+    this.dy = Math.floor(Math.random() * 5) + 3;
   }
   draw(ctx) {
     ctx.beginPath();
