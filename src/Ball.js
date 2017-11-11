@@ -22,7 +22,7 @@ class Ball {
     ctx.fillStyle = this.color;
     ctx.fill();
   }
-  move(ctx,balls, currentCollisions) {
+  move(ctx, balls, currentCollisions) {
     Boundary.checkBoundary(this);
     // console.log(currentCollisions);
     for (let i = 0; i < balls.length; i += 1) {
@@ -44,7 +44,7 @@ class Ball {
     this.draw(ctx);
   }
   increaseSize(ctx) {
-    if (Boundary.checkLimits(this)) {
+    if (Boundary.checkLimits(this) && this.mass < 1) {
       this.radius += 1;
     }
     this.calcMass();
